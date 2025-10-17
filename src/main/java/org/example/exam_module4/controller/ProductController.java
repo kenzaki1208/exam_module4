@@ -59,7 +59,6 @@ public class ProductController {
     ) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("categories", categoryService.findAll());
-            // nếu là sửa thì trả về trang sửa, nếu là thêm thì trả về trang thêm
             if (product.getId() != null) {
                 return "product_edit";
             } else {
@@ -67,8 +66,7 @@ public class ProductController {
             }
         }
 
-        // Kiểm tra category null (phòng lỗi null pointer)
-        if (product.getCategory() == null) {
+        if (product.getCategory() == null || product.getCategory().getId() == null) {
             bindingResult.rejectValue("category", "error.category", "Vui lòng chọn loại sản phẩm");
             model.addAttribute("categories", categoryService.findAll());
             if (product.getId() != null) {
